@@ -10,7 +10,7 @@ import {
 } from '#/components/ui/card'
 import type { NotesGenerated, NotesInput } from '#/schema/notes'
 import { deleteNote, fetchAllNotes, postNewNote } from '#/services/notes'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -35,8 +35,8 @@ function NotesPage() {
   const { notes, error: loadError } = Route.useLoaderData()
   const postNewNoteFn = useServerFn(postNewNote)
   const deleteNoteFn = useServerFn(deleteNote)
-
   const [localNotes, updateLocalNotes] = useState(notes)
+  const navigate = useNavigate()
 
   const handleCreateNewNoteSubmit = async (data: NotesInput) => {
     try {
@@ -80,12 +80,28 @@ function NotesPage() {
             <CardHeader>
               <div className="flex justify-between">
                 <div>
-                  <CardTitle>{note.title}</CardTitle>
+                  <CardTitle>
+                    <Button
+                      variant="link"
+                      className='text-white p-0 text-md'
+                      onClick={() =>
+                        navigate({
+                          to: '/notes/$noteId',
+                          params: { noteId: note.id },
+                        })
+                      }
+                    >
+                      {note.title}
+                    </Button>
+                  </CardTitle>
                   <CardDescription>
                     {note.updatedAt} - {note.id}
                   </CardDescription>
                 </div>
-                <DeleteNoteAlertDialog id={note.id} onClickFn={handleDeleteNote}/>
+                <DeleteNoteAlertDialog
+                  id={note.id}
+                  onClickFn={handleDeleteNote}
+                />
               </div>
             </CardHeader>
             <CardContent>{note.content}</CardContent>

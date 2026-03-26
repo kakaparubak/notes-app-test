@@ -1,3 +1,11 @@
+import { Button } from '#/components/ui/button'
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '#/components/ui/card'
+import { Input } from '#/components/ui/input'
 import type { NotesGenerated } from '#/schema/notes'
 import { fetchNoteById } from '#/services/notes'
 import { createFileRoute } from '@tanstack/react-router'
@@ -25,9 +33,24 @@ function NoteIdPage() {
 
   if (error) return <div>{error}</div>
   return (
-    <div>
-      <div>{note?.title}</div>
-      <div>{note?.content}</div>
+    <div className="p-8">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">{note?.title}</CardTitle>
+          <CardDescription>
+            {note?.updatedAt} - ID: {note?.id}
+          </CardDescription>
+        </CardHeader>
+      </Card>
+      <form onSubmit={() => console.log('submitted')}>
+        <Input
+          className="my-2"
+          id='content'
+          name='content'
+          defaultValue={note?.content ? note.content : ''}
+        />
+        <Button>Update</Button>
+      </form>
     </div>
   )
 }
