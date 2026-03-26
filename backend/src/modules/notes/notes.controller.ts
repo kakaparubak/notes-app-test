@@ -19,15 +19,16 @@ export async function getNoteByIdHandler(
 ) {
   const note = await getNoteById(req.params);
 
-  return note;
+  return note[0];
 }
 
 export async function createNoteHandler(
   req: FastifyRequest<{ Body: NoteInput }>,
 ) {
   const createdNote = await createNote(req.body);
+  console.log(createdNote);
 
-  return createdNote;
+  return createdNote[0];
 }
 
 export async function deleteNoteHandler(
@@ -35,7 +36,7 @@ export async function deleteNoteHandler(
 ) {
   const deletedNote = await deleteNote(req.params);
 
-  return deletedNote;
+  return deletedNote[0];
 }
 
 export async function updateNoteHandler(
@@ -43,5 +44,5 @@ export async function updateNoteHandler(
 ) {
   const updatedNote = await updateNote({ ...req.params, ...req.body });
 
-  return updatedNote;
+  return updatedNote[0];
 }

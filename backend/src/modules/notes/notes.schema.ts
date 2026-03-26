@@ -6,17 +6,21 @@ const notesInput = {
 };
 
 const notesGenerated = {
-  id: z.number(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  id: z.number(),
 };
 
-export const noteInputSchema = z.object(notesInput);
-export const noteResponseSchema = z.object({ ...notesInput, ...notesGenerated });
-export const notesResponseSchema = z.array(noteResponseSchema)
 export const noteRequestIdSchema = z.object({
-  id: z.string()
-})
+  id: z.string(),
+});
 
-export type NoteInput = z.infer<typeof noteInputSchema>
-export type NoteRequestId = z.infer<typeof noteRequestIdSchema>
+export const noteInputSchema = z.object(notesInput);
+export const noteResponseSchema = z.object({
+  ...notesInput,
+  ...notesGenerated,
+});
+export const notesResponseSchema = z.array(noteResponseSchema);
+
+export type NoteInput = z.infer<typeof noteInputSchema>;
+export type NoteRequestId = z.infer<typeof noteRequestIdSchema>;

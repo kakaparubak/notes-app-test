@@ -13,7 +13,7 @@ const client = postgres(process.env.DATABASE_URL!);
 export const db = drizzle(client, { schema });
 
 function buildServer() {
-  const fastify = Fastify({ logger: true });
+  const fastify = Fastify({ logger: false });
 
   fastify.setValidatorCompiler(validatorCompiler);
   fastify.setSerializerCompiler(serializerCompiler);

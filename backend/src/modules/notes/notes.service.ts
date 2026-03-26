@@ -8,11 +8,11 @@ export async function getAllNotes() {
 }
 
 export async function getNoteById({ id }: NoteRequestId) {
-  return db.query.notes.findFirst({
-    where(fields, operators) {
-      operators.eq(fields.id, Number(id));
-    },
-  });
+  return db
+    .select()
+    .from(notes)
+    .where(eq(notes.id, Number(id)))
+    .limit(1);
 }
 
 export async function createNote({ title, content }: NoteInput) {
