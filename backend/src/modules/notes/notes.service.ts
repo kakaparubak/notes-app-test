@@ -1,10 +1,10 @@
-import { eq, sql } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import { db } from "../../server";
 import { notes } from "../../db/schema";
 import type { NoteInput, NoteRequestId } from "./notes.schema";
 
 export async function getAllNotes() {
-  return db.query.notes.findMany();
+  return db.select().from(notes).orderBy(desc(notes.updatedAt));
 }
 
 export async function getNoteById({ id }: NoteRequestId) {

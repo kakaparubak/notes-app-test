@@ -75,38 +75,42 @@ function NotesPage() {
       <NoteDialog submitFunction={handleCreateNewNoteSubmit} />
       {loadError && <h1>{loadError}</h1>}
       <div className="py-8">
-        {localNotes.map((note) => (
-          <Card key={note.id} className="my-4">
-            <CardHeader>
-              <div className="flex justify-between">
-                <div>
-                  <CardTitle>
-                    <Button
-                      variant="link"
-                      className='text-white p-0 text-md'
-                      onClick={() =>
-                        navigate({
-                          to: '/notes/$noteId',
-                          params: { noteId: note.id },
-                        })
-                      }
-                    >
-                      {note.title}
-                    </Button>
-                  </CardTitle>
-                  <CardDescription>
-                    {note.updatedAt} - {note.id}
-                  </CardDescription>
+        {localNotes.map((note) => {
+          const localDate = new Date(note.updatedAt).toLocaleString()
+
+          return (
+            <Card key={note.id} className="my-4">
+              <CardHeader>
+                <div className="flex justify-between">
+                  <div>
+                    <CardTitle>
+                      <Button
+                        variant="link"
+                        className="text-white p-0 text-md"
+                        onClick={() =>
+                          navigate({
+                            to: '/notes/$noteId',
+                            params: { noteId: note.id },
+                          })
+                        }
+                      >
+                        {note.title}
+                      </Button>
+                    </CardTitle>
+                    <CardDescription>
+                      {localDate} - {note.id}
+                    </CardDescription>
+                  </div>
+                  <DeleteNoteAlertDialog
+                    id={note.id}
+                    onClickFn={handleDeleteNote}
+                  />
                 </div>
-                <DeleteNoteAlertDialog
-                  id={note.id}
-                  onClickFn={handleDeleteNote}
-                />
-              </div>
-            </CardHeader>
-            <CardContent>{note.content}</CardContent>
-          </Card>
-        ))}
+              </CardHeader>
+              <CardContent>{note.content}</CardContent>
+            </Card>
+          )
+        })}
       </div>
     </main>
   )

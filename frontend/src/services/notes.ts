@@ -69,3 +69,29 @@ export const deleteNote = createServerFn()
 
     return response.json()
   })
+
+export const updateNote = createServerFn()
+  .inputValidator((data: NotesInput & NotesId) => data)
+  .handler(async ({ data }): Promise<NotesGenerated> => {
+    const apiBaseUrl = process.env.API_URL
+    const apiURL = `${apiBaseUrl}/api/notes/${data.id}`
+
+    const response = await fetch(apiURL, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: data.title,
+        content: data.content,
+      }),
+    })
+
+    console.log(response)
+
+    if (!response.ok) {
+      throw new Error('Failed updating note')
+    }
+
+    return response.json()
+  })
